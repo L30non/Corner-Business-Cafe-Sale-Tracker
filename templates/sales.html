@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% block title %}Sales History - Corner Cafe Ops Terminal{% endblock %}
+
+{% block content %}
+<div class="panel">
+    <h2 class="disp">Transaction History</h2>
+    {% if sales %}
+    <div class="scroll">
+        <table>
+            <thead>
+                <tr class="mono">
+                    <th>Sale ID</th>
+                    <th>Date</th>
+                    <th>Items</th>
+                    <th>Subtotal</th>
+                    <th>Discount</th>
+                    <th>Total</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for sale in sales %}
+                <tr>
+                    <td><strong class="mono">#{{ sale.id }}</strong></td>
+                    <td class="mono" style="font-size: 10px;">{{ sale.date }}</td>
+                    <td>{{ sale.lines | length }} items</td>
+                    <td>{{ sale.subtotal | money }}</td>
+                    <td class="discount-amount">-{{ (sale.auto_discount + sale.manual_discount) | money }}</td>
+                    <td><strong>{{ sale.total | money }}</strong></td>
+                    <td>
+                        <a href="{{ url_for('sale_detail_page', sale_id=sale.id) }}" class="btn-sm disp">View</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+    <p class="empty-state">No sales yet. <a href="{{ url_for('new_sale_page') }}" style="color: var(--lime);">Create your first sale</a>!</p>
+    {% endif %}
+</div>
+{% endblock %}

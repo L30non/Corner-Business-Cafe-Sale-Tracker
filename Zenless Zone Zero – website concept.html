@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Zenless Zone Zero – website concept</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Krona+One&family=Red+Hat+Display:wght@300;400&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#131416;--lime:#d8fa00;--lime2:#caff32;--paper:#eff0ef;--hatch:#d9d9d9;
+--sup:'Anton','Impact',sans-serif;--str:'Krona One','Arial Black',sans-serif;--int:'Archivo Black','Arial Black',sans-serif;--body:'Red Hat Display',Arial,sans-serif}
+*{box-sizing:border-box;margin:0}
+html,body{height:100%;background:#08090a;overflow:hidden}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+:focus-visible{outline:3px solid var(--lime);outline-offset:3px}
+#stage{position:absolute;left:50%;top:50%;width:1440px;height:1024px;background:var(--ink);overflow:hidden;border-radius:20px;transform:translate(-50%,-50%) scale(var(--s,1));color:#fff}
+.abs{position:absolute}
+.bgword{left:147px;top:930px;width:1248px;font:400 260px/1 var(--sup);letter-spacing:40px;color:rgba(255,255,255,.2);white-space:nowrap;overflow:hidden;height:146px;text-align:center;transform:scaleY(1.05)}
+.logo{left:40px;top:35px;display:flex;align-items:center;gap:24px;height:57px}
+.mark{width:52px;height:55px;background:#fff;color:#000;font:italic 400 40px/55px var(--sup);text-align:center;clip-path:polygon(0 8%,100% 0,100% 85%,70% 100%,0 100%)}
+.logo b{font:italic 400 40px/1 var(--sup);letter-spacing:4px}
+nav{left:761px;top:0;width:679px;height:87px;background:var(--ink);border-radius:0 20px 0 20px;display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:3;box-shadow:0 0 0 6px #0e0f11}
+nav button{width:68px;height:68px;border-radius:18px;display:grid;place-items:center;position:relative;transition:color .15s}
+nav button svg{width:27px;height:27px;fill:currentColor}
+nav button:hover{color:var(--lime)}
+nav button.on{color:var(--lime)}
+nav .dot{position:absolute;right:20px;top:15px;width:11px;height:11px;border-radius:50%;background:var(--lime)}
+.pg{left:140px;top:139px;width:1255px;height:769px;border-radius:35px;background:var(--paper);overflow:hidden;color:#000;opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s}
+.pg.on{opacity:1;visibility:visible}
+.hatch{background:repeating-linear-gradient(135deg,var(--hatch) 0 3px,transparent 3px 9px);border-radius:0 120px 120px 0}
+.slot{display:grid;place-items:center;text-align:center;border:3px dashed rgba(19,20,22,.35);border-radius:28px;font:400 22px/1.3 var(--body);color:rgba(19,20,22,.6);padding:20px}
+.dark .slot,.slot.dk{border-color:rgba(216,250,0,.5);color:rgba(255,255,255,.7)}
+/* hero */
+#p0 .art{left:0;top:0;width:100%;height:100%}
+#p0 .slot{position:absolute;left:150px;top:30px;width:960px;height:640px;background:linear-gradient(160deg,#fff 0,#dfe2df 100%)}
+#p0 .cut{left:0;top:0;width:150px;height:100%;background:#fff;clip-path:polygon(0 0,100% 0,60% 100%,0 100%);opacity:.0}
+.sign{right:0;bottom:0;position:absolute;left:1012px;top:710px;width:243px;height:73px;border:3px solid var(--lime2);border-radius:30px;background:linear-gradient(112deg,var(--lime) 0 55%,var(--ink) 55%);font:italic 400 64px/64px var(--sup);letter-spacing:6px;display:flex;justify-content:space-around;align-items:center;transition:transform .15s;color:#000}
+.sign i{color:#fff;font-style:italic}
+.sign:hover{transform:translateY(-4px) skewX(-4deg)}
+/* characters */
+.band{left:0;top:206px;width:100%;height:401px;background:var(--lime)}
+.blk{left:292px;top:206px;width:963px;height:401px;background:var(--ink);clip-path:polygon(8% 0,100% 0,100% 100%,0 100%);border-radius:0 0 0 40px}
+.ch1{left:57px;top:250px;font:400 64px/1 var(--sup);letter-spacing:1.3px}
+.num{left:0;top:300px;width:385px;text-align:center;font:400 280px/1 var(--sup);color:transparent;background:repeating-linear-gradient(135deg,#000 0 3px,transparent 3px 9px);-webkit-background-clip:text;background-clip:text;-webkit-text-stroke:3px #000}
+.cname{left:943px;top:247px;width:300px;font:400 32px/1.2 var(--int);color:#fff}
+.cv{left:943px;top:312px;font:300 20px/1 var(--body);color:#fff;white-space:pre}
+.cart{left:330px;top:40px;width:560px;height:550px;border-color:rgba(216,250,0,.5);color:rgba(255,255,255,.75)}
+.cart b{display:block;font:400 56px/1 var(--sup);color:var(--lime);margin-bottom:10px}
+.pill{left:395px;top:657px;width:465px;height:63px;border:4px solid var(--lime);border-radius:30px;background:var(--ink);display:flex;align-items:center;justify-content:space-between;padding:0}
+.pill>button{width:80px;height:55px;display:grid;place-items:center;color:var(--lime);border-radius:26px}
+.pill>button svg{width:28px;height:28px;fill:currentColor}
+.thumbs{display:flex;gap:15px}
+.thumbs button{width:76px;height:55px;border-radius:25px;border:3px solid var(--ink);background:linear-gradient(135deg,#667,#aab);color:#000;font:400 28px/49px var(--sup);text-align:center;transition:border-color .2s}
+.thumbs button.on{border-color:var(--lime)}
+/* video */
+.tv{left:3px;top:-52px;width:969px;height:594px;margin-left:140px;margin-top:139px;border-radius:35px;border:12px solid #fff;background:var(--ink);box-shadow:inset 0 0 0 10px #000;position:absolute;left:3px;top:-52px;margin:0;left:143px;top:87px}
+.scr{left:12px;top:12px;width:706px;height:570px;border-radius:23px;border:10px solid #000;overflow:hidden;background:linear-gradient(135deg,#24445a,#5a3a2a 55%,#1b2b22);position:absolute}
+.scr::before,.scr::after{content:"";position:absolute;background:#000;transform:rotate(-3deg)}
+.scr::before{left:50%;top:-10px;width:10px;height:600px}
+.scr::after{left:-10px;top:50%;width:740px;height:10px}
+.play{position:absolute;left:263px;top:222px;width:111px;height:111px;border-radius:50%;background:rgba(255,255,255,.75);display:grid;place-items:center;z-index:2;transition:transform .15s}
+.play:hover{transform:scale(1.1)}
+.play svg{width:48px;height:48px;fill:#fff;margin-left:6px}
+.side{left:718px;top:12px;width:239px;height:570px;border-radius:23px;border:8px solid #000;background:var(--ink);position:absolute}
+.side svg{position:absolute;left:34px;fill:none;stroke:#fff;stroke-width:9}
+.slotl{position:absolute;left:43px;top:384px;width:161px;height:19px}
+.grille{position:absolute;left:43px;top:431px;width:161px;display:grid}
+.grille i{height:19px;background:var(--hatch);border:2px solid #000;margin-top:-2px}
+/* rail */
+.rail{left:0;top:633px;width:83px;height:366px;background:var(--ink);border-radius:20px;z-index:3;box-shadow:0 0 0 6px #0e0f11}
+.rail button{position:absolute;left:10px;width:63px;height:62px;border-radius:20px;background:var(--lime);display:grid;place-items:center;color:#000}
+.rail button svg{width:28px;height:28px;fill:none;stroke:currentColor;stroke-width:4;stroke-linecap:round;stroke-linejoin:round}
+.rail .up{top:12px}.rail .dn{top:292px}
+.rail button:disabled{background:#d9d9d9;cursor:default}
+.pn{position:absolute;left:12px;top:74px;width:59px;height:218px;display:grid;place-items:center}
+.pn span{display:block;transform:rotate(90deg);font:400 48px/1 var(--str);letter-spacing:4.8px;white-space:nowrap}
+/* modals */
+.ov{position:absolute;inset:0;background:rgba(0,0,0,.6);z-index:10;display:grid;place-items:center;opacity:0;visibility:hidden;transition:opacity .25s,visibility .25s}
+.ov.on{opacity:1;visibility:visible}
+.login{width:559px;height:623px;background:var(--ink);border-radius:30px 0 30px 30px;position:relative;padding:87px 46px 0;box-shadow:0 0 0 2px #26282b;transform:translateY(20px);transition:transform .25s}
+.ov.on .login{transform:none}
+.cl{position:absolute;right:0;top:0;width:164px;height:32px;background:var(--lime);border-radius:0 0 0 24px;display:flex;justify-content:flex-end;gap:28px;padding:0 24px;align-items:center;color:#000}
+.cl svg{width:22px;height:22px;stroke:#000;stroke-width:4;fill:none}
+.login h2{font:400 26px/1 var(--str);text-align:center;margin:20px 0 52px}
+.fld{display:flex;align-items:center;gap:16px;height:72px;background:var(--hatch);border-radius:20px;padding:0 20px;margin-bottom:58px;color:#606060}
+.fld svg{width:34px;height:34px;fill:#606060;flex:none}
+.fld input{flex:1;min-width:0;background:none;border:0;outline:0;font:400 20px Arial,sans-serif;color:#222}
+.fld:focus-within{outline:3px solid var(--lime)}
+.fld input::placeholder{color:#606060}
+.fld button{width:36px;height:36px;display:grid;place-items:center}
+.go{width:100%;height:72px;border-radius:20px;background:var(--lime);color:#000;font:400 24px var(--str);margin-top:-10px}
+.go:hover{background:#e6ff3a}
+.links{display:flex;justify-content:space-between;margin-top:44px;font:400 12px var(--str)}
+.msg{text-align:center;font:400 14px var(--body);color:var(--lime);height:20px;margin-top:-30px}
+.tvm{width:939px;height:539px;border-radius:30px;border:12px solid #fff;background:#000;position:relative;display:grid;place-items:center;overflow:hidden;color:#fff;text-align:center;font:400 24px/1.4 var(--body)}
+.tvm .cl{width:70px;border-radius:0 0 0 20px;padding:0 24px;height:44px;background:var(--lime);justify-content:center}
+.tvm .cl svg{width:22px}
+.toast{position:absolute;left:50%;bottom:120px;transform:translate(-50%,20px);background:var(--lime);color:#000;padding:14px 26px;border-radius:20px;font:400 14px var(--str);opacity:0;transition:.25s;z-index:20;pointer-events:none}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+/* loading */
+#load{position:absolute;inset:0;background:var(--ink);z-index:30;display:grid;place-items:center;transition:opacity .5s,visibility .5s}
+#load.off{opacity:0;visibility:hidden}
+.blob{width:380px;height:296px;background:var(--lime);border-radius:48% 52% 45% 55%/55% 45% 55% 45%;display:grid;place-items:center;animation:wob 1.4s ease-in-out infinite alternate;color:#000;font:italic 400 64px/1 var(--sup);letter-spacing:6px}
+@keyframes wob{to{border-radius:55% 45% 52% 48%/45% 55% 45% 55%;transform:rotate(-4deg) scale(1.04)}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="abs bgword" aria-hidden="true">ZENLESS</div>
+  <a class="abs logo" href="#"><span class="mark">ZZ</span><b>ZENLESS ZONE ZERO</b></a>
+
+  <nav class="abs" aria-label="Main">
+    <button data-go="0" aria-label="Home"><svg viewBox="0 0 24 24"><path d="M12 2.5 3 9.6V20a1.5 1.5 0 0 0 1.5 1.5H9v-6h6v6h4.5A1.5 1.5 0 0 0 21 20V9.6z"/></svg></button>
+    <button data-go="1" aria-label="Characters"><svg viewBox="0 0 24 24"><path d="M6 2h12a3 3 0 0 1 3 3v14a3 3 0 0 1-3 3H6a3 3 0 0 1-3-3V5a3 3 0 0 1 3-3zm2 6v2h8V8zm0 4v2h8v-2zm0 4v2h5v-2z" fill-rule="evenodd"/></svg></button>
+    <button data-go="2" aria-label="Videos"><svg viewBox="0 0 24 24"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm-2 5.5 6.5 4.5-6.5 4.5z" fill-rule="evenodd"/></svg></button>
+    <button id="bell" aria-label="Notifications"><svg viewBox="0 0 24 24"><path d="M12 22a2.6 2.6 0 0 0 2.5-2h-5A2.6 2.6 0 0 0 12 22zm7-6V11a7 7 0 0 0-5-6.7V3.5a2 2 0 0 0-4 0v.8A7 7 0 0 0 5 11v5l-2 2v1h18v-1z"/></svg><i class="dot"></i></button>
+    <button id="menu" aria-label="More"><svg viewBox="0 0 28 24"><path d="M2 5h12v3.5H2zm16 0h8v3.5h-8zM2 15.5h7V19H2zm11 0h13V19H13z"/><circle cx="16" cy="6.7" r="3.5"/><circle cx="11" cy="17.2" r="3.5"/></svg></button>
+  </nav>
+
+  <!-- 01 home -->
+  <section class="abs pg on" id="p0" aria-label="Home">
+    <div class="abs art"><div class="abs hatch" style="left:0;top:0;width:500px;height:100px;opacity:.7"></div>
+      <div class="slot" role="img" aria-label="Key visual placeholder">Key visual<br>Anby, Nicole &amp; Soldier 11 on a white hatchback<br><small>(drop the art in here)</small></div></div>
+    <button class="sign" id="signup" aria-label="Sign up">SIGN<i>up</i></button>
+  </section>
+
+  <!-- 02 characters -->
+  <section class="abs pg" id="p1" aria-label="Characters">
+    <div class="abs hatch" style="left:0;top:0;width:500px;height:100px;opacity:.7"></div>
+    <div class="abs hatch" style="left:15px;top:575px;width:1240px;height:190px;opacity:.5;border-radius:90px 0 0 90px"></div>
+    <div class="abs band"></div><div class="abs blk"></div>
+    <div class="abs ch1">CHARACTER</div>
+    <div class="abs num" id="cnum" aria-hidden="true">01</div>
+    <div class="abs slot cart dk" id="cart"><div><b id="cini">A</b>Character art</div></div>
+    <div class="abs cname" id="cname">Anby DEMARA</div>
+    <div class="abs cv">CV. XXXXXX  XXXXXXX</div>
+    <div class="abs pill">
+      <button id="cprev" aria-label="Previous character"><svg viewBox="0 0 24 24"><path d="M19 3v18L5 12z"/></svg></button>
+      <div class="thumbs" id="thumbs"></div>
+      <button id="cnext" aria-label="Next character"><svg viewBox="0 0 24 24"><path d="M5 3v18l14-9z"/></svg></button>
+    </div>
+  </section>
+
+  <!-- 03 video -->
+  <section class="abs pg" id="p2" aria-label="Videos">
+    <div class="abs hatch" style="left:0;top:0;width:500px;height:100px;opacity:.7"></div>
+    <div class="abs hatch" style="left:15px;top:300px;width:1240px;height:370px;opacity:.35;border-radius:90px 0 0 90px"></div>
+    <div class="tv">
+      <div class="scr"><button class="play" id="play" aria-label="Play trailer"><svg viewBox="0 0 24 24"><path d="M5 3v18l15-9z"/></svg></button></div>
+      <div class="side">
+        <svg style="top:76px" width="170" height="170" viewBox="0 0 170 170"><circle cx="85" cy="85" r="76"/><path d="M85 9v152"/></svg>
+        <svg style="top:200px" width="170" height="170" viewBox="0 0 170 170"><circle cx="85" cy="85" r="76"/><path d="M32 138 138 32"/></svg>
+        <svg style="left:60px;top:322px" width="120" height="30" viewBox="0 0 120 30"><path d="M3 15h30M100 15h.1" stroke-linecap="round" stroke-width="12"/></svg>
+        <div class="grille"><i></i><i></i><i></i><i></i><i></i></div>
+      </div>
+    </div>
+  </section>
+
+  <aside class="abs rail" aria-label="Page scroll">
+    <button class="up" id="pup" aria-label="Previous page"><svg viewBox="0 0 24 24"><path d="M4 3h16M5 20l7-9 7 9"/></svg></button>
+    <div class="pn" aria-live="polite"><span id="pnum">01</span></div>
+    <button class="dn" id="pdn" aria-label="Next page"><svg viewBox="0 0 24 24"><path d="M4 21h16M5 4l7 9 7-9"/></svg></button>
+  </aside>
+
+  <div class="ov" id="lov" role="dialog" aria-modal="true" aria-label="Account log in">
+    <form class="login" id="lf" onsubmit="return false">
+      <div class="cl"><svg viewBox="0 0 24 24"><path d="M3 12h18"/></svg><button type="button" id="lclose" aria-label="Close"><svg viewBox="0 0 24 24"><path d="m4 4 16 16M20 4 4 20"/></svg></button></div>
+      <h2>Account Log In</h2>
+      <label class="fld"><svg viewBox="0 0 24 24"><path d="M2 5h20v3l-10 6L2 8zm0 5.5 10 6 10-6V19H2z"/></svg><input id="em" type="email" placeholder="Enter email address" autocomplete="email"></label>
+      <label class="fld"><svg viewBox="0 0 24 24"><path d="M7 10V7a5 5 0 0 1 10 0v3h2v12H5V10zm2 0h6V7a3 3 0 0 0-6 0z"/></svg><input id="pw" type="password" placeholder="Enter password" autocomplete="current-password"><button type="button" id="eye" aria-label="Show password"><svg viewBox="0 0 24 24" style="width:30px;height:30px"><path d="M12 5C6 5 2 12 2 12s4 7 10 7 10-7 10-7-4-7-10-7zm0 3a4 4 0 1 1 0 8 4 4 0 0 1 0-8z"/></svg></button></label>
+      <button class="go" id="go">LOGIN</button>
+      <div class="msg" id="msg" role="status"></div>
+      <div class="links"><a href="#">Register</a><a href="#">Forgot password?</a></div>
+    </form>
+  </div>
+
+  <div class="ov" id="vov" role="dialog" aria-modal="true" aria-label="Trailer">
+    <div class="tvm"><div class="cl"><button type="button" id="vclose" aria-label="Close trailer"><svg viewBox="0 0 24 24"><path d="m4 4 16 16M20 4 4 20"/></svg></button></div><div>Trailer player<br><small>(embed your video here)</small></div></div>
+  </div>
+
+  <div class="toast" id="toast" role="status"></div>
+  <div id="load"><div class="blob">LOADING</div></div>
+</div>
+
+<script>
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const st=$('#stage');
+function fit(){st.style.setProperty('--s',Math.min(innerWidth/1440,innerHeight/1024))}
+addEventListener('resize',fit);fit();
+setTimeout(()=>$('#load').classList.add('off'),1800);
+
+let page=0;
+const pages=$$('.pg'),navs=$$('nav [data-go]');
+function go(n){
+  page=Math.max(0,Math.min(2,n));
+  pages.forEach((p,i)=>p.classList.toggle('on',i===page));
+  navs.forEach(b=>b.classList.toggle('on',+b.dataset.go===page));
+  $('#pnum').textContent='0'+(page+1);
+  $('#pup').disabled=page===0;$('#pdn').disabled=page===2;
+}
+navs.forEach(b=>b.onclick=()=>go(+b.dataset.go));
+$('#pup').onclick=()=>go(page-1);$('#pdn').onclick=()=>go(page+1);
+go(0);
+
+const chars=[['Anby DEMARA','A'],['Nicole DEMARA','N'],['SOLDIER 11','S']];
+let ci=0;const th=$('#thumbs');
+chars.forEach((c,i)=>{const b=document.createElement('button');b.textContent=c[1];b.setAttribute('aria-label',c[0]);b.onclick=()=>pick(i);th.append(b)});
+function pick(i){
+  ci=(i+3)%3;
+  $('#cname').textContent=chars[ci][0];$('#cini').textContent=chars[ci][1];$('#cnum').textContent='0'+(ci+1);
+  [...th.children].forEach((b,j)=>b.classList.toggle('on',j===ci));
+}
+$('#cprev').onclick=()=>pick(ci-1);$('#cnext').onclick=()=>pick(ci+1);pick(0);
+
+function modal(id,open){$(id).classList.toggle('on',open)}
+$('#signup').onclick=()=>{modal('#lov',true);$('#em').focus()};
+$('#lclose').onclick=()=>modal('#lov',false);
+$('#play').onclick=()=>modal('#vov',true);
+$('#vclose').onclick=()=>modal('#vov',false);
+$$('.ov').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('on')}));
+$('#eye').onclick=()=>{const p=$('#pw'),s=p.type==='password';p.type=s?'text':'password';$('#eye').setAttribute('aria-label',s?'Hide password':'Show password')};
+$('#go').onclick=()=>{
+  const m=$('#msg');
+  if(!$('#em').validity.valid||!$('#em').value){m.textContent='Enter a valid email address.';$('#em').focus();return}
+  if(!$('#pw').value){m.textContent='Enter your password.';$('#pw').focus();return}
+  m.textContent='Welcome back, Proxy! (demo login)';setTimeout(()=>{modal('#lov',false);m.textContent=''},1100);
+};
+$('#bell').onclick=()=>{const t=$('#toast');t.textContent='No new notifications';t.classList.add('on');setTimeout(()=>t.classList.remove('on'),1800)};
+$('#menu').onclick=()=>{modal('#lov',true);$('#em').focus()};
+
+addEventListener('keydown',e=>{
+  if(e.key==='Escape')$$('.ov').forEach(o=>o.classList.remove('on'));
+  if($$('.ov.on').length)return;
+  if(e.key==='ArrowDown')go(page+1);
+  if(e.key==='ArrowUp')go(page-1);
+  if(page===1&&e.key==='ArrowRight')pick(ci+1);
+  if(page===1&&e.key==='ArrowLeft')pick(ci-1);
+});
+let lock=0;
+addEventListener('wheel',e=>{
+  if(lock||$$('.ov.on').length||Math.abs(e.deltaY)<20)return;
+  lock=1;go(page+(e.deltaY>0?1:-1));setTimeout(()=>lock=0,700);
+},{passive:true});
+</script>
+</body>
+</html>

@@ -1,0 +1,104 @@
+{% extends "base.html" %}
+
+{% block title %}Revenue Report - Corner Cafe Ops Terminal{% endblock %}
+
+{% block content %}
+<div class="panel">
+    <h2 class="disp">Revenue Analytics</h2>
+    <p class="subtitle">Comprehensive business insights and performance metrics.</p>
+</div>
+
+<div class="grid">
+    <div class="card">
+        <div class="mono">Total Sales</div>
+        <div class="big disp">{{ report.sale_count }}</div>
+        <small>Completed transactions</small>
+    </div>
+    <div class="card o">
+        <div class="mono">Gross Revenue</div>
+        <div class="big disp">{{ report.gross | money }}</div>
+        <small>Before discounts</small>
+    </div>
+    <div class="card c">
+        <div class="mono">Total Discounts</div>
+        <div class="big disp discount-amount">{{ report.discounts | money }}</div>
+        <small>Auto + Manual</small>
+    </div>
+    <div class="card">
+        <div class="mono">Net Revenue</div>
+        <div class="big disp">{{ report.net | money }}</div>
+        <small>Final revenue</small>
+    </div>
+</div>
+
+<div class="report-grid">
+    <!-- Sales Performance -->
+    <div class="panel">
+        <h2 class="disp">Performance</h2>
+        <div class="metric-row">
+            <span class="mono">Average Sale:</span>
+            <strong>{{ report.average_sale | money if report.average_sale is not none else 'N/A' }}</strong>
+        </div>
+        <div class="metric-row">
+            <span class="mono">Best Seller:</span>
+            <strong>{{ report.best_seller or 'N/A' }}</strong>
+        </div>
+        <div class="metric-row">
+            <span class="mono">Bottom Seller:</span>
+            <strong>{{ report.bottom_seller or 'N/A' }}</strong>
+        </div>
+    </div>
+
+    <!-- Units by Item -->
+    <div class="panel">
+        <h2 class="disp">Units Sold</h2>
+        {% if report.units_by_item %}
+        <div style="max-height: 300px; overflow-y: auto;">
+            {% for item, units in report.units_by_item.items() | sort(attribute='1', reverse=true) %}
+            <div class="metric-row">
+                <span><strong>{{ item }}</strong></span>
+                <span class="chip">{{ units }} units</span>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="empty-state">No sales data yet.</p>
+        {% endif %}
+    </div>
+
+    <!-- Revenue by Category -->
+    <div class="panel">
+        <h2 class="disp">Category Revenue</h2>
+        {% if report.revenue_by_category %}
+        <div style="max-height: 300px; overflow-y: auto;">
+            {% for category, revenue in report.revenue_by_category.items() | sort(attribute='1', reverse=true) %}
+            <div class="metric-row">
+                <span class="chip category-badge">{{ category }}</span>
+                <strong>{{ revenue | money }}</strong>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="empty-state">No sales data yet.</p>
+        {% endif %}
+    </div>
+
+    <!-- Low Stock Items -->
+    <div class="panel warning-section">
+        <h2 class="disp">Low Stock</h2>
+        {% if report.low_stock %}
+        <ul class="low-stock-list">
+            {% for name, stock in report.low_stock %}
+            <li>
+                <span><strong>{{ name }}</strong></span>
+                <span class="chip warning-badge">{{ stock }} left</span>
+                <a href="{{ url_for('products_page') }}" class="btn-sm disp">Restock</a>
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p class="empty-state">✅ All items well-stocked!</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

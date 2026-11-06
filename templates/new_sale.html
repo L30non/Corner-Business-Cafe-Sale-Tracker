@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+
+{% block title %}New Sale - Corner Cafe Ops Terminal{% endblock %}
+
+{% block content %}
+<div class="sales-layout">
+    <!-- Product Picker -->
+    <div class="form-card">
+        <h2 class="disp">Add to Cart</h2>
+        {% if catalog %}
+        <form action="{{ url_for('add_to_cart_route') }}" method="POST">
+            <div class="form-group">
+                <label for="name">Select Product</label>
+                <select id="name" name="name" required>
+                    <option value="">-- Choose a product --</option>
+                    {% for name, item in catalog.items() %}
+                    <option value="{{ name }}">{{ name }} - {{ item.price | money }} ({{ item.stock }} in stock)</option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="form-group">
+                <label for="qty">Quantity</label>
+                <input type="number" id="qty" name="qty" min="1" value="1" required>
+            </div>
+
+            <button type="submit" class="btn disp">Add to Cart</button>
+        </form>
+        {% else %}
+        <p class="empty-state">No products available. <a href="{{ url_for('products_page') }}" style="color: var(--lime);">Add products first</a>.</p>
+        {% endif %}
+    </div>
+
+    <!-- Current Cart -->
+    <div class="panel">
+        <h2 class="disp">Current Cart ({{ cart | length }})</h2>
+        {% if cart %}
+        <div class="scroll">
+            <table>
+                <thead>
+                    <tr class="mono">
+                        <th>Product</th>
+                        <th>Qty</th>
+                        <th>Unit Price</th>
+                        <th>Total</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for line in cart %}
+                    {% set product = catalog.get(line.item) %}
+                    {% if product %}
+                    <tr>
+                        <td><strong>{{ line.item }}</strong></td>
+                        <td>{{ line.qty }}</td>
+                        <td>{{ product.price | money }}</td>
+                        <td>{{ (product.price * line.qty) | money }}</td>
+                        <td>
+                            <form action="{{ url_for('remove_from_cart_route') }}" method="POST" class="inline-form">
+                                <input type="hidden" name="name" value="{{ line.item }}">
+                                <button type="submit" class="btn-xs btn-danger disp">Remove</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endif %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <div class="cart-summary">
+            <div class="summary-row">
+                <span class="mono">Subtotal:</span>
+                <strong>{{ cart_preview.subtotal | money }}</strong>
+            </div>
+            <div class="summary-row">
+                <span class="mono">Discount ({{ cart_preview.discount_percent }}%):</span>
+                <strong class="discount-amount">-{{ cart_preview.auto_discount | money }}</strong>
+            </div>
+            <div class="summary-row total-row">
+                <span class="mono">Total:</span>
+                <strong class="total-amount">{{ cart_preview.estimated_total | money }}</strong>
+            </div>
+        </div>
+
+        <div class="cart-actions">
+            <form action="{{ url_for('checkout_route') }}" method="POST" style="flex: 1;">
+                <button type="submit" class="btn disp btn-block">Complete Checkout</button>
+            </form>
+            <form action="{{ url_for('clear_cart_route') }}" method="POST" onsubmit="return confirm('Clear all items?');">
+                <button type="submit" class="btn disp" style="background: var(--panel2); color: var(--ink);">Clear</button>
+            </form>
+        </div>
+        {% else %}
+        <p class="empty-state">Cart is empty. Add products to get started!</p>
+        {% endif %}
+    </div>
+</div>
+{% endblock %}

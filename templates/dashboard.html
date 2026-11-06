@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Corner Cafe Ops Terminal{% endblock %}
+
+{% block content %}
+<div class="panel">
+    <h2 class="disp">Cafe Overview</h2>
+    <p class="subtitle">Operational statistics and inventory status.</p>
+</div>
+
+<div class="grid">
+    <div class="card">
+        <div class="mono">Net Revenue</div>
+        <div class="big disp">{{ report.net | money }}</div>
+        <small>Gross: {{ report.gross | money }} | Discounts: {{ report.discounts | money }}</small>
+    </div>
+    <div class="card o">
+        <div class="mono">Total Sales</div>
+        <div class="big disp">{{ report.sale_count }}</div>
+        <small>Average: {{ report.average_sale | money if report.average_sale is not none else 'N/A' }}</small>
+    </div>
+    <div class="card c">
+        <div class="mono">Best Seller</div>
+        <div class="big disp" style="font-size: 28px; line-height: 1.2; padding-top: 6px;">{{ report.best_seller or 'N/A' }}</div>
+        <small>Top performing item</small>
+    </div>
+    <div class="card r">
+        <div class="mono">Low Stock Alerts</div>
+        <div class="big disp" id="low">{{ report.low_stock | length }}</div>
+        <small>Items below 5 units</small>
+    </div>
+</div>
+
+{% if report.low_stock %}
+<div class="panel warning-section">
+    <h2 class="disp">⚠️ Low Stock Warnings</h2>
+    <ul class="low-stock-list">
+        {% for name, stock in report.low_stock %}
+        <li>
+            <span><strong>{{ name }}</strong></span>
+            <span class="chip warning-badge">{{ stock }} left</span>
+            <a href="{{ url_for('products_page') }}" class="btn-sm disp">Restock</a>
+        </li>
+        {% endfor %}
+    </ul>
+</div>
+{% endif %}
+
+<div class="panel" style="display: flex; gap: 12px; flex-wrap: wrap;">
+    <a href="{{ url_for('new_sale_page') }}" class="btn disp">+ New Sale / Checkout</a>
+    <a href="{{ url_for('products_page') }}" class="btn disp" style="background: var(--cyan);">Manage Products</a>
+    <a href="{{ url_for('report_page') }}" class="btn disp" style="background: var(--panel2); color: var(--ink);">View Report</a>
+</div>
+{% endblock %}

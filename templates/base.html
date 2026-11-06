@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>{% block title %}Corner Cafe Ops Terminal{% endblock %}</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Anton&family=Archivo+Black&family=Krona+One&family=Red+Hat+Display:wght@300;400;500;600&display=swap">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div class="wrap">
+        <header>
+            <a href="{{ url_for('dashboard') }}" class="nav-brand">
+                <div class="mono">// Corner Cafe · Ops Terminal</div>
+                <h1 class="disp">Cafe <span>Tracker</span></h1>
+            </a>
+            <div class="live mono"><span class="dot"></span>Online</div>
+        </header>
+        <div class="stripe"></div>
+
+        <nav>
+            <a href="{{ url_for('dashboard') }}" class="disp {{ 'active' if request.endpoint == 'dashboard' else '' }}">Dashboard</a>
+            <a href="{{ url_for('products_page') }}" class="disp {{ 'active' if request.endpoint in ['products_page', 'add_product_route', 'update_stock_route', 'remove_product_route'] else '' }}">Products</a>
+            <a href="{{ url_for('new_sale_page') }}" class="disp {{ 'active' if request.endpoint == 'new_sale_page' else '' }}">New Sale</a>
+            <a href="{{ url_for('sales_history_page') }}" class="disp {{ 'active' if request.endpoint in ['sales_history_page', 'sale_detail_page'] else '' }}">History</a>
+            <a href="{{ url_for('report_page') }}" class="disp {{ 'active' if request.endpoint == 'report_page' else '' }}">Report</a>
+        </nav>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                <div class="flash-messages">
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ category }}">
+                            <span>{{ message }}</span>
+                            <button type="button" class="close-btn" onclick="this.parentElement.style.display='none';">&times;</button>
+                        </div>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        {% endwith %}
+
+        <main>
+            {% block content %}{% endblock %}
+        </main>
+
+        <footer class="mono">
+            Zone 01 · Corner Cafe Ops Terminal · CSCI 111
+        </footer>
+    </div>
+</body>
+</html>

@@ -1,0 +1,341 @@
+<title>Flask App Test Runner</title>
+<style>
+:root {
+  --bg: #0b0b0d;
+  --surface: #16161a;
+  --border: #2c2c34;
+  --text: #f2f2ee;
+  --muted: #8d8d96;
+  --accent: #d8fa00;
+  --success: #27e1ff;
+  --warning: #ff6a00;
+  --error: #ff3b4e;
+}
+
+* { box-sizing: border-box; margin: 0; }
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  padding: max(16px, env(safe-area-inset-left, 0px));
+  padding-right: max(16px, env(safe-area-inset-right, 0px));
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 24px 0;
+}
+
+h1 {
+  font-size: 32px;
+  font-weight: 700;
+  margin-bottom: 8px;
+  color: var(--accent);
+}
+
+.subtitle {
+  color: var(--muted);
+  font-size: 14px;
+  margin-bottom: 24px;
+}
+
+.panel {
+  background: var(--surface);
+  padding: 20px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  border: 1px solid var(--border);
+}
+
+.status {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-left: 8px;
+}
+
+.status.waiting { background: var(--muted); color: var(--bg); }
+.status.running { background: var(--warning); color: var(--bg); }
+.status.pass { background: var(--success); color: var(--bg); }
+.status.fail { background: var(--error); color: #fff; }
+
+.test-item {
+  padding: 12px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.test-item:last-child { border-bottom: none; }
+
+.test-name {
+  font-weight: 500;
+  flex: 1;
+}
+
+.test-detail {
+  font-size: 13px;
+  color: var(--muted);
+  margin-top: 4px;
+}
+
+button {
+  background: var(--accent);
+  color: var(--bg);
+  border: none;
+  padding: 12px 24px;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+button:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.summary {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.stat {
+  background: var(--surface);
+  padding: 16px;
+  border-radius: 6px;
+  text-align: center;
+  border: 1px solid var(--border);
+}
+
+.stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+
+.stat-label {
+  font-size: 12px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.log {
+  background: #000;
+  color: #0f0;
+  font-family: 'Monaco', 'Courier New', monospace;
+  font-size: 12px;
+  padding: 16px;
+  border-radius: 6px;
+  max-height: 300px;
+  overflow-y: auto;
+  margin-top: 16px;
+}
+
+.log-line {
+  margin: 4px 0;
+  word-break: break-all;
+}
+</style>
+
+<div class="container">
+  <h1>🧪 Flask App Test Suite</h1>
+  <p class="subtitle">Corner Cafe Tracker Web Application Tests</p>
+
+  <div class="summary">
+    <div class="stat">
+      <div class="stat-value" id="totalTests">0</div>
+      <div class="stat-label">Total Tests</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value" id="passedTests" style="color: var(--success);">0</div>
+      <div class="stat-label">Passed</div>
+    </div>
+    <div class="stat">
+      <div class="stat-value" id="failedTests" style="color: var(--error);">0</div>
+      <div class="stat-label">Failed</div>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2 style="margin-bottom: 16px;">Server Connection</h2>
+    <div class="test-item">
+      <div>
+        <div class="test-name">Flask Server Status</div>
+        <div class="test-detail" id="serverUrl">http://localhost:5000</div>
+      </div>
+      <span class="status waiting" id="serverStatus">Not Checked</span>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h2 style="margin-bottom: 16px;">Test Cases</h2>
+    <div id="testList"></div>
+  </div>
+
+  <button onclick="runTests()" id="runBtn">Run All Tests</button>
+
+  <div class="panel" style="margin-top: 24px; display: none;" id="logPanel">
+    <h2 style="margin-bottom: 12px;">Test Log</h2>
+    <div class="log" id="logOutput"></div>
+  </div>
+</div>
+
+<script>
+const BASE_URL = 'http://localhost:5000';
+
+const tests = [
+  { name: 'Dashboard loads', path: '/', method: 'GET', checkFor: 'Cafe Overview' },
+  { name: 'Products page loads', path: '/products', method: 'GET', checkFor: 'Inventory Catalog' },
+  { name: 'New sale page loads', path: '/sales/new', method: 'GET', checkFor: 'Add to Cart' },
+  { name: 'Sales history loads', path: '/sales', method: 'GET', checkFor: 'Transaction History' },
+  { name: 'Report page loads', path: '/report', method: 'GET', checkFor: 'Revenue Analytics' }
+];
+
+let passed = 0;
+let failed = 0;
+
+function log(message, type = 'info') {
+  const logPanel = document.getElementById('logPanel');
+  const logOutput = document.getElementById('logOutput');
+  logPanel.style.display = 'block';
+
+  const line = document.createElement('div');
+  line.className = 'log-line';
+  const time = new Date().toLocaleTimeString();
+  line.textContent = `[${time}] ${message}`;
+  logOutput.appendChild(line);
+  logOutput.scrollTop = logOutput.scrollHeight;
+}
+
+function updateStats() {
+  document.getElementById('totalTests').textContent = tests.length;
+  document.getElementById('passedTests').textContent = passed;
+  document.getElementById('failedTests').textContent = failed;
+}
+
+async function checkServer() {
+  const statusEl = document.getElementById('serverStatus');
+  statusEl.textContent = 'Checking...';
+  statusEl.className = 'status running';
+
+  try {
+    log(`Checking server at ${BASE_URL}...`);
+    const response = await fetch(BASE_URL, { method: 'HEAD', mode: 'no-cors' });
+    statusEl.textContent = 'Online';
+    statusEl.className = 'status pass';
+    log('✓ Server is reachable');
+    return true;
+  } catch (error) {
+    statusEl.textContent = 'Offline';
+    statusEl.className = 'status fail';
+    log(`✗ Server not reachable: ${error.message}`, 'error');
+    return false;
+  }
+}
+
+async function runTest(test, index) {
+  const testEl = document.getElementById(`test-${index}`);
+  const statusEl = document.getElementById(`status-${index}`);
+
+  statusEl.textContent = 'Running...';
+  statusEl.className = 'status running';
+
+  try {
+    log(`Testing: ${test.name}`);
+    const response = await fetch(BASE_URL + test.path);
+
+    if (!response.ok) {
+      throw new Error(`HTTP ${response.status}`);
+    }
+
+    const html = await response.text();
+
+    if (test.checkFor && !html.includes(test.checkFor)) {
+      throw new Error(`Expected content "${test.checkFor}" not found`);
+    }
+
+    statusEl.textContent = 'PASS';
+    statusEl.className = 'status pass';
+    log(`✓ ${test.name} passed`);
+    passed++;
+    return true;
+  } catch (error) {
+    statusEl.textContent = 'FAIL';
+    statusEl.className = 'status fail';
+    log(`✗ ${test.name} failed: ${error.message}`, 'error');
+    failed++;
+    return false;
+  } finally {
+    updateStats();
+  }
+}
+
+async function runTests() {
+  const btn = document.getElementById('runBtn');
+  btn.disabled = true;
+  btn.textContent = 'Running Tests...';
+
+  passed = 0;
+  failed = 0;
+  updateStats();
+
+  document.getElementById('logOutput').innerHTML = '';
+  log('Starting test suite...');
+
+  // Check server first
+  const serverOnline = await checkServer();
+
+  if (!serverOnline) {
+    log('⚠ Server is not running. Start it with: python3 app.py', 'error');
+    btn.disabled = false;
+    btn.textContent = 'Run All Tests';
+    return;
+  }
+
+  // Run all tests
+  for (let i = 0; i < tests.length; i++) {
+    await runTest(tests[i], i);
+    await new Promise(resolve => setTimeout(resolve, 200));
+  }
+
+  log(`\nTest suite complete: ${passed} passed, ${failed} failed`);
+  btn.disabled = false;
+  btn.textContent = 'Run All Tests';
+}
+
+// Initialize test list
+function init() {
+  const testList = document.getElementById('testList');
+  tests.forEach((test, index) => {
+    const item = document.createElement('div');
+    item.className = 'test-item';
+    item.id = `test-${index}`;
+    item.innerHTML = `
+      <div>
+        <div class="test-name">${test.name}</div>
+        <div class="test-detail">${test.method} ${test.path}</div>
+      </div>
+      <span class="status waiting" id="status-${index}">Waiting</span>
+    `;
+    testList.appendChild(item);
+  });
+  updateStats();
+}
+
+init();
+</script>

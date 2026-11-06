@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Rattanak Ops Terminal</title>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@1,700;1,800&family=Barlow:wght@500;600&family=JetBrains+Mono:wght@500&display=swap">
+<style>
+:root{--bg:#0b0b0d;--panel:#16161a;--panel2:#1f1f25;--ink:#f2f2ee;--mute:#8d8d96;--lime:#d8fa00;--org:#ff6a00;--red:#ff3b4e;--cyan:#27e1ff;--line:#2c2c34;color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box;margin:0}
+body{background:var(--bg);color:var(--ink);font-family:Barlow,system-ui,sans-serif;min-height:100vh;
+background-image:radial-gradient(circle,#ffffff0d 1px,transparent 1.5px);background-size:14px 14px}
+.disp{font-family:'Barlow Condensed','Arial Narrow',sans-serif;font-style:italic;font-weight:800;text-transform:uppercase;letter-spacing:.02em}
+.mono{font-family:'JetBrains Mono',ui-monospace,monospace;font-size:11px;letter-spacing:.08em;color:var(--mute);text-transform:uppercase}
+.wrap{max-width:1000px;margin:0 auto;padding:16px}
+header{display:flex;justify-content:space-between;align-items:flex-end;gap:12px;border-bottom:3px solid var(--lime);padding-bottom:10px;position:relative}
+header h1{font-size:clamp(34px,8vw,60px);line-height:.9}
+header h1 span{color:var(--lime)}
+.stripe{height:10px;margin:8px 0 14px;background:repeating-linear-gradient(-45deg,var(--lime) 0 8px,transparent 8px 16px);opacity:.85;clip-path:polygon(0 0,100% 0,98% 100%,0 100%)}
+.live{display:flex;align-items:center;gap:6px;white-space:nowrap}
+.dot{width:9px;height:9px;background:var(--lime);border-radius:50%;animation:p 1.4s infinite}
+@keyframes p{50%{opacity:.2}}
+nav{display:flex;gap:6px;margin-bottom:16px;overflow-x:auto}
+nav button{flex:1;min-width:110px;background:var(--panel);color:var(--mute);border:0;padding:12px 14px;cursor:pointer;font-size:20px;
+clip-path:polygon(10px 0,100% 0,calc(100% - 10px) 100%,0 100%);transition:.15s}
+nav button.on{background:var(--lime);color:#000}
+nav button:hover:not(.on){color:var(--ink);background:var(--panel2)}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;margin-bottom:16px}
+.card{background:var(--panel);padding:14px 16px;position:relative;clip-path:polygon(0 0,calc(100% - 18px) 0,100% 18px,100% 100%,0 100%);border-left:4px solid var(--lime)}
+.card.o{border-color:var(--org)}.card.r{border-color:var(--red)}.card.c{border-color:var(--cyan)}
+.card .big{font-size:40px;line-height:1;margin-top:6px}
+.card small{color:var(--mute);font-size:12px}
+.panel{background:var(--panel);padding:16px;margin-bottom:16px;clip-path:polygon(0 0,100% 0,100% calc(100% - 20px),calc(100% - 20px) 100%,0 100%)}
+.panel h2{font-size:26px;margin-bottom:10px;display:flex;align-items:center;gap:10px}
+.panel h2::before{content:"";width:14px;height:14px;background:var(--org);transform:skewX(-20deg)}
+.scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;min-width:520px}
+th{text-align:left;padding:8px;border-bottom:2px solid var(--line)}
+td{padding:11px 8px;border-bottom:1px solid var(--line);font-weight:600}
+tr:hover td{background:var(--panel2)}
+.chip{display:inline-block;padding:3px 12px;font-size:13px;color:#000;font-weight:700;clip-path:polygon(7px 0,100% 0,calc(100% - 7px) 100%,0 100%)}
+.s-new{background:var(--cyan)}.s-pay{background:var(--lime)}.s-ship{background:var(--org)}.s-hold{background:var(--red);color:#fff}
+.bar{height:14px;background:var(--panel2);transform:skewX(-20deg);margin:6px 0 14px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--lime);width:0;transition:width .8s}
+.bar i.low{background:var(--red)}.bar i.mid{background:var(--org)}
+.row{display:flex;justify-content:space-between;gap:8px;font-weight:600}
+.btn{background:var(--org);color:#000;border:0;padding:10px 18px;font-size:18px;cursor:pointer;margin-top:6px;clip-path:polygon(10px 0,100% 0,calc(100% - 10px) 100%,0 100%)}
+.btn:hover{background:var(--lime)}
+.tab{display:none}.tab.on{display:block}
+footer{text-align:center;padding:18px 0 8px}
+@media(max-width:520px){.wrap{padding:12px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <div><div class="mono">// Rattanak Coffee · Ops Terminal</div><h1 class="disp">Business <span>Tracker</span></h1></div>
+  <div class="live mono"><span class="dot"></span>Online</div>
+</header>
+<div class="stripe"></div>
+
+<nav>
+  <button class="disp on" data-t="orders">Orders</button>
+  <button class="disp" data-t="stock">Stock</button>
+  <button class="disp" data-t="inv">Invoices</button>
+</nav>
+
+<div class="grid">
+  <div class="card"><div class="mono">Sales today</div><div class="big disp">$1,240</div><small>+12% vs yesterday</small></div>
+  <div class="card o"><div class="mono">Pending orders</div><div class="big disp" id="pend">0</div><small>Awaiting Telegram confirm</small></div>
+  <div class="card r"><div class="mono">Low stock</div><div class="big disp" id="low">0</div><small>Restock these soon</small></div>
+  <div class="card c"><div class="mono">Balance due</div><div class="big disp">€24.5K</div><small>Magister Sistema</small></div>
+</div>
+
+<section class="tab on" id="orders">
+  <div class="panel"><h2 class="disp">Incoming Orders</h2>
+    <div class="scroll"><table>
+      <thead><tr class="mono"><th>ID</th><th>Customer</th><th>Item</th><th>Total</th><th>Status</th></tr></thead>
+      <tbody id="ob"></tbody></table></div>
+    <button class="btn disp" id="add">+ New Order</button>
+  </div>
+</section>
+
+<section class="tab" id="stock">
+  <div class="panel"><h2 class="disp">Inventory Levels</h2><div id="sb"></div></div>
+</section>
+
+<section class="tab" id="inv">
+  <div class="panel"><h2 class="disp">Magister Sistema Order</h2>
+    <div class="row"><span>Downpayment paid</span><span>€6,100.94</span></div>
+    <div class="bar"><i style="width:20%" data-w="20"></i></div>
+    <div class="row"><span>Balance remaining</span><span>€24,478.86</span></div>
+    <div class="bar"><i class="mid" style="width:80%" data-w="80"></i></div>
+    <div class="mono">INV 233/26 + INV 234/26 · Total €30,579.80</div>
+  </div>
+</section>
+
+<footer class="mono">Zone 01 · Stay sharp, Proxy</footer>
+</div>
+
+<script>
+var orders=[
+["#1042","Sok Dara","Espresso beans 1kg ×4","$96","new"],
+["#1041","Chan Café","Grinder ×1","$420","pay"],
+["#1040","Bopha","Milk jugs ×6","$54","ship"],
+["#1039","Vibol Roastery","Beans 5kg","$310","hold"]];
+var lab={new:"New",pay:"Paid",ship:"Shipping",hold:"On hold"};
+var stock=[["Arabica beans",72],["Robusta beans",38],["Espresso cups",21],["Portafilters",64],["Descaler",12]];
+function renderOrders(){
+  var h="";orders.forEach(function(o){h+="<tr><td class='mono'>"+o[0]+"</td><td>"+o[1]+"</td><td>"+o[2]+"</td><td>"+o[3]+"</td><td><span class='chip disp s-"+o[4]+"'>"+lab[o[4]]+"</span></td></tr>"});
+  document.getElementById("ob").innerHTML=h;
+  document.getElementById("pend").textContent=orders.filter(function(o){return o[4]=="new"||o[4]=="hold"}).length;
+}
+function renderStock(){
+  var h="",low=0;stock.forEach(function(s){var c=s[1]<25?"low":s[1]<50?"mid":"";if(s[1]<25)low++;
+  h+="<div class='row'><span>"+s[0]+"</span><span class='mono'>"+s[1]+"%</span></div><div class='bar'><i class='"+c+"' data-w='"+s[1]+"'></i></div>"});
+  document.getElementById("sb").innerHTML=h;document.getElementById("low").textContent=low;
+}
+function fill(){document.querySelectorAll("[data-w]").forEach(function(e){e.style.width=e.dataset.w+"%"})}
+document.querySelectorAll("nav button").forEach(function(b){b.onclick=function(){
+  document.querySelectorAll("nav button,.tab").forEach(function(x){x.classList.remove("on")});
+  b.classList.add("on");document.getElementById(b.dataset.t).classList.add("on");
+  document.querySelectorAll("[data-w]").forEach(function(e){e.style.width="0"});setTimeout(fill,30)}});
+var n=1043;
+document.getElementById("add").onclick=function(){orders.unshift(["#"+(n++),"Walk-in","Mystery bundle","$"+(20+Math.floor(Math.random()*80)),"new"]);renderOrders()};
+renderOrders();renderStock();
+</script>
+</body>
+</html>

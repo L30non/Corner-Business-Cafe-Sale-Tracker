@@ -1,0 +1,6 @@
+Flask==3.0.0
+Werkzeug==3.0.1
+
+# For running the application:
+# pip3 install -r requirements.txt
+# python3 app.py
