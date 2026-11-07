@@ -2,7 +2,7 @@
   "catalog": {
     "Matcha Latte": {
       "price": 300,
-      "stock": 18,
+      "stock": 7,
       "category": "Drinks"
     }
   },
@@ -23,6 +23,40 @@
       "auto_discount": 0,
       "manual_discount": 0,
       "total": 600
+    },
+    {
+      "id": 2,
+      "date": "2026-11-06 22:05",
+      "lines": [
+        {
+          "item": "Matcha Latte",
+          "category": "Drinks",
+          "qty": 10,
+          "unit_price": 300,
+          "line_total": 3000
+        }
+      ],
+      "subtotal": 3000,
+      "auto_discount": 300,
+      "manual_discount": 300,
+      "total": 2700
+    },
+    {
+      "id": 3,
+      "date": "2026-11-07 11:24",
+      "lines": [
+        {
+          "item": "Matcha Latte",
+          "category": "Drinks",
+          "qty": 1,
+          "unit_price": 300,
+          "line_total": 300
+        }
+      ],
+      "subtotal": 300,
+      "auto_discount": 0,
+      "manual_discount": 0,
+      "total": 300
     }
   ],
   "discount_tiers": [
@@ -35,5 +69,5 @@
       5
     ]
   ],
-  "next_sale_id": 2
+  "next_sale_id": 4
 }
