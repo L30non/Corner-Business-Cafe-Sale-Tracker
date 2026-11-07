@@ -4,6 +4,11 @@
       "price": 300,
       "stock": 7,
       "category": "Drinks"
+    },
+    "Magister KXX": {
+      "price": 100000,
+      "stock": 3,
+      "category": "Machine"
     }
   },
   "sales": [
@@ -57,6 +62,23 @@
       "auto_discount": 0,
       "manual_discount": 0,
       "total": 300
+    },
+    {
+      "id": 4,
+      "date": "2026-11-07 22:16",
+      "lines": [
+        {
+          "item": "Magister KXX",
+          "category": "Machine",
+          "qty": 2,
+          "unit_price": 100000,
+          "line_total": 200000
+        }
+      ],
+      "subtotal": 200000,
+      "auto_discount": 0,
+      "manual_discount": 0,
+      "total": 200000
     }
   ],
   "discount_tiers": [
@@ -69,5 +91,5 @@
       5
     ]
   ],
-  "next_sale_id": 4
+  "next_sale_id": 5
 }
