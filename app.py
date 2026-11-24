@@ -1,6 +1,37 @@
 """Flask Application for Corner Cafe Tracker."""
 
+import importlib.util
+import os
+import subprocess
+import sys
 import threading
+
+
+def _ensure_dependencies():
+    """Make `python3 app.py` work without manual setup.
+
+    If Flask is missing (e.g. Homebrew Python blocks global installs), build a
+    venv outside the project (OneDrive breaks venvs), install requirements.txt
+    into it, and re-launch this script with that interpreter.
+    """
+    if importlib.util.find_spec("flask") is not None:
+        return
+    here = os.path.dirname(os.path.abspath(__file__))
+    venv_dir = os.path.join(os.path.expanduser("~"), ".venvs", "corner-cafe")
+    venv_python = os.path.join(venv_dir, "bin", "python")
+    if not os.path.exists(venv_python):
+        print(f"Flask not found. Creating virtual environment at {venv_dir} ...")
+        subprocess.check_call([sys.executable, "-m", "venv", venv_dir])
+    print("Installing dependencies from requirements.txt ...")
+    subprocess.check_call(
+        [venv_python, "-m", "pip", "install", "-q", "-r", os.path.join(here, "requirements.txt")]
+    )
+    os.execv(venv_python, [venv_python, os.path.join(here, "app.py"), *sys.argv[1:]])
+
+
+if __name__ == "__main__":
+    _ensure_dependencies()
+
 from flask import Flask, render_template, request, redirect, url_for, session, flash, abort
 from core import products, cart as cart_ops, sales, discounts, reports
 from core.money import format_money, dollars_to_cents
