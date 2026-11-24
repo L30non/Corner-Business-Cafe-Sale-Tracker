@@ -3,8 +3,23 @@
 import unittest
 import os
 import json
+import tempfile
 from app import app, store, store_lock
 import storage
+
+
+_tmpdir = tempfile.TemporaryDirectory()
+_real_db_path = storage.DB_PATH
+
+
+def setUpModule():
+    """Point storage at a throwaway database so tests never touch cafe.db."""
+    storage.DB_PATH = os.path.join(_tmpdir.name, "test_cafe.db")
+
+
+def tearDownModule():
+    storage.DB_PATH = _real_db_path
+    _tmpdir.cleanup()
 
 
 class CafeFlaskTestCase(unittest.TestCase):
@@ -26,12 +41,8 @@ class CafeFlaskTestCase(unittest.TestCase):
             storage.save_data(store)
 
     def tearDown(self):
-        """Clean up test data.json if needed."""
-        if os.path.exists("data.json"):
-            try:
-                os.remove("data.json")
-            except OSError:
-                pass
+        """Nothing to clean up: tests run against a temporary database."""
+        pass
 
     def test_dashboard_route(self):
         """Test dashboard renders successfully."""
